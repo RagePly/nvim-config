@@ -25,6 +25,8 @@ vim.cmd("Plug 'cpea2506/one_monokai.nvim'")
 vim.cmd("Plug 'EdenEast/nightfox.nvim'")
 vim.cmd("Plug 'saghen/blink.lib'")
 vim.cmd("Plug 'saghen/blink.cmp'")
+vim.cmd("Plug 'rakr/vim-one'")
+
 
 vim.cmd("call plug#end()")
 
@@ -68,7 +70,7 @@ vim.diagnostic.config({virtual_text = true })
 
 -- LSP config
 vim.lsp.enable('clangd')
-vim.lsp.enable('pyright')
+vim.lsp.enable('ty')
 vim.lsp.enable('rust_analyzer')
 -- vim.api.nvim_create_autocmd('LspAttach', {
 --   group = vim.api.nvim_create_augroup('my.lsp', {}),
@@ -86,10 +88,18 @@ vim.lsp.enable('rust_analyzer')
 -- vim.cmd("set completeopt+=noselect")
 
 -- Keymaps
-vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end, opts)
-vim.keymap.set('n', ']D', function() vim.diagnostic.goto_prev() end, opts)
-vim.keymap.set('n', ']k', function() vim.diagnostic.open_float() end, opts)
+vim.keymap.set('n', ']d', function() vim.diagnostic.jump({count=1}) end, opts)
+vim.keymap.set('n', ']D', function() vim.diagnostic.jump({count=-1}) end, opts)
 
 vim.cmd("nnoremap ]m yiwq:iMan<Space><Esc>p<CR>")
 vim.cmd("vnoremap ]m yq:iMan<Space><Esc>p<CR>")
 
+vim.api.nvim_create_user_command("ColorschemeLight", function()
+  vim.o.background = "light"
+  vim.cmd.colorscheme("one")
+end, {})
+
+vim.api.nvim_create_user_command("ColorschemeDark", function()
+  vim.o.background = "dark"
+  vim.cmd.colorscheme("one_monokai")
+end, {})
